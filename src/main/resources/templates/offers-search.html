@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>FindCar | Разширено търсене</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+.navbar-custom {
+    background-color: #1a1a1a !important;
+    padding: 1rem 0;
+}
+    .search-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 100px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-width: 1000px;
+    margin: auto;
+}
+    .hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+    .navbar-brand {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+    }
+     .nav-item1 {
+        margin-left: 15px;
+        margin-right: 15px;
+}
+          .col-md-3 {
+        width: 1000px;
+}
+        .col-md-4 {
+        width: 1000px;
+}
+</style>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <i class="fas fa-car-side text-warning"></i> FindCar
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navContent">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link" href="/">Начало</a></li>
+        <li class="nav-item1"><a class="nav-link" href="/offers/search">Разширено търсене</a></li>
+
+        <li class="nav-item" sec:authorize="!isAuthenticated()">
+          <a class="nav-link btn" href="/users/login">Вход</a>
+        </li>
+
+        <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+          <a class="nav-link dropdown-toggle text-warning" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="fas fa-user-circle"></i> <span sec:authentication="name">User</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="/offers/add">➕ Добави Обява</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form th:action="@{/users/logout}" method="post">
+                <button class="dropdown-item text-danger">Изход</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+
+</nav>
+<div class="search-container row g-3 text-dark row g-30">
+
+  <form th:action="@{/offers/search}"
+        th:object="${searchOfferDto}"
+        method="get">
+    <div class="row g-3 align-items-end">
+
+      <div class="col-md-4">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small>МАРКА / МОДЕЛ</small></label>
+        <select name="modelId" class="form-select form-select-lg">
+          <option value="">Всички</option>
+
+          <optgroup th:each="brand : ${brands}" th:label="${brand.name}">
+            <option th:each="model : ${brand.models}"
+                    th:value="${model.id}"
+                    th:text="${model.name}">X5</option>
+          </optgroup>
+        </select>
+      </div>
+
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small>ГОДИНА (ОТ)</small></label>
+        <select name="minYear" class="form-select form-select-lg">
+          <option value =""></option>
+          <option th:each="year    :${years}"
+                  th:value="${year}"
+                  th:text="${year}">
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small>ГОДИНА (ДО)</small></label>
+        <select name="minYear" class="form-select form-select-lg">
+          <option value =""></option>
+          <option th:each="year    :${years}"
+                  th:value="${year}"
+                  th:text="${year}">
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small>МИН. ЦЕНА</small></label>
+        <div class="input-group input-group-lg">
+          <input type="price" name="minPrice" class="form-control" placeholder="EUR.">
+          <span class="input-group-text bg-white">EUR</span>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small>МАКС. ЦЕНА</small></label>
+        <div class="input-group input-group-lg">
+          <input type="price" name="maxPrice" class="form-control" placeholder="EUR.">
+          <span class="input-group-text bg-white">EUR</span>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small>ДВИГАТЕЛ</small></label>
+        <select name="minYear" class="form-select form-select-lg">
+          <option value="">Всички</option>
+          <option th:each="e :${engines}"
+                  th:value="${e.name}"
+                  th:text="${e.label}">
+          </option>
+        </select>
+      </div>
+
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small>МАКС. ПРОБЕГ</small></label>
+        <div class="input-group input-group-lg">
+          <input type="mileage" name="mileage" class="form-control" placeholder="Км.">
+          <span class="input-group-text bg-white">Км.</span>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small> МИН. КУБ. СМ.</small></label>
+        <div class="input-group input-group-lg">
+          <input type="cubes" name="min-cubes" class="form-control" placeholder="Куб. См.">
+          <span class="input-group-text bg-white">Куб. См.</span>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small> МАКС. КУБ. СМ.</small></label>
+        <div class="input-group input-group-lg">
+          <input type="cubes" name="max-cubes" class="form-control" placeholder="Куб. См.">
+          <span class="input-group-text bg-white">Куб. См.</span>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small> МИН. К. С.</small></label>
+        <div class="input-group input-group-lg">
+          <input type="horse-power" name="min-horse-power" class="form-control" placeholder="К. С.">
+          <span class="input-group-text bg-white">К. С.</span>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small> МАКС. К. С.</small></label>
+        <div class="input-group input-group-lg">
+          <input type="horse-power" name="max-horse-power" class="form-control" placeholder="К. С.">
+          <span class="input-group-text bg-white">К. С.</span>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small>ЦВЯТ</small></label>
+        <select name="color" class="form-select form-select-lg">
+          <option value="">Всички</option>
+          <option th:each="c :${colors}"
+                  th:value="${c.name()}"
+                  th:text="${c.label}">
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small>СКОРОСТНА КУТИЯ</small></label>
+        <select name="transmission" class="form-select form-select-lg">
+          <option value="">Всички</option>
+          <option th:each="t :${transmissions}"
+                  th:value="${t.name()}"
+                  th:text="${t.label}">
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small>БРОЙ ВРАТИ</small></label>
+        <select name="count-doors" class="form-select form-select-lg">
+          <option value="">Всички</option>
+          <option th:each="d :${doors}"
+                  th:value="${d.name()}"
+                  th:text="${d.label}">
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small>ЕВРОСТАНДАРТ</small></label>
+        <select name="count-doors" class="form-select form-select-lg">
+          <option value="">Всички</option>
+          <option th:each="e :${eurostandard}"
+                  th:value="${e}"
+                  th:text="${e}">
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small>РЕГИОНИ</small></label>
+        <select name="count-doors" class="form-select form-select-lg">
+          <option value="">Всички</option>
+          <option th:each="r :${regions}"
+                  th:value="${r.name}"
+                  th:text="${r.label}">
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label fw-bold text-start w-100 ps-1"><small>СОРТИРАЙ ПО:</small></label>
+        <select name="count-doors" class="form-select form-select-lg">
+          <option value="">Най-нова обява</option>
+          <option th:each="s :${sort}"
+                  th:value="${s.name}"
+                  th:text="${s.label}">
+          </option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-bold">Екстри:</label>
+
+        <div class="row">
+          <div class="col-md-4" th:each="extraItem : ${allExtras}">
+
+            <div class="form-check">
+              <input type="checkbox"
+                     class="form-check-input"
+                     th:field="*{extras}"
+                     th:value="${extraItem}">
+
+              <label class="form-check-label"
+                     th:text="${extraItem.label}"
+                     th:for="${#ids.prev('extras')}">
+                Климатик
+              </label>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-warning btn-lg w-100 fw-bold shadow-sm">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+</div>
+</div>
+</body>
+</html>

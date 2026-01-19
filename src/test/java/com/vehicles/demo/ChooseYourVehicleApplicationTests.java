@@ -1,0 +1,13 @@
+package com.vehicles.demo;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class ChooseYourVehicleApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
