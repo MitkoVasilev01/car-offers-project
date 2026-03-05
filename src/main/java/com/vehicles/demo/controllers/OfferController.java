@@ -9,16 +9,15 @@ import com.vehicles.demo.repositories.BrandRepository;
 import com.vehicles.demo.repositories.ModelRepository;
 import com.vehicles.demo.repositories.OfferRepository;
 import com.vehicles.demo.services.OfferService;
+import jakarta.validation.Path;
 import jakarta.validation.Valid;
+import org.springframework.boot.Banner;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.swing.*;
@@ -40,14 +39,27 @@ public class OfferController {
     @GetMapping("/offers/add")
     public String addOffer(Model model) {
 
-        if (!model.containsAttribute("AddOfferDto")) {
-            model.addAttribute("AddOfferDto", new AddOfferDto());
+        if (!model.containsAttribute("addOfferDto")) {
+            model.addAttribute("addOfferDto", new AddOfferDto());
         }
+        int currentYear = java.time.Year.now().getValue();
 
+        List<Integer> years = new ArrayList<>();
+
+        for (int i = currentYear; i >= 1930; i--) {
+            years.add(i);
+        }
         model.addAttribute("brands", brandRepository.findAll());
         model.addAttribute("engines", Engine.values());
         model.addAttribute("transmissions", Transmission.values());
         model.addAttribute("colors", Color.values());
+        model.addAttribute("years", years);
+        model.addAttribute("allExtras", Extra.values());
+        model.addAttribute("regions", Region.values());
+        model.addAttribute("doors", DoorCount.values());
+        model.addAttribute("euroStandards", EuroStandard.values());
+        model.addAttribute("colors", Color.values());
+
 
         return "offer-add";
 
@@ -58,21 +70,32 @@ public class OfferController {
                                   BindingResult bindingResult,
                                   RedirectAttributes redirectAttributes,
                                   @AuthenticationPrincipal UserDetails userDetails) {
+
+
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("addOfferDto", addOfferDto);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.addOfferDto", bindingResult);
             return "redirect:/offers/add";
         }
+
         offerService.addOffer(addOfferDto, userDetails);
 
         return "redirect:/";
     }
 
     @GetMapping("/offers/search")
-    public String searchOffers(@Valid SearchOfferDto searchOfferDto, Model model) {
+    public String searchOffersForm(Model model) {
+
         if (!model.containsAttribute("searchOfferDto")) {
             model.addAttribute("searchOfferDto", new SearchOfferDto());
         }
+
+        populateDropdowns(model);
+
+        return "offers-search";
+    }
+
+    private void populateDropdowns(Model model) {
         int currentYear = java.time.Year.now().getValue();
 
         List<Integer> years = new ArrayList<>();
@@ -85,18 +108,98 @@ public class OfferController {
         model.addAttribute("engines", Engine.values());
         model.addAttribute("transmissions", Transmission.values());
         model.addAttribute("colors", Color.values());
-        model.addAttribute("offers", offerService.searchOffers(searchOfferDto));
-        model.addAttribute("colors", Color.values());
-        model.addAttribute("transmissions", Transmission.values());
         model.addAttribute("doors", DoorCount.values());
         model.addAttribute("eurostandard", EuroStandard.values());
         model.addAttribute("regions", Region.values());
         model.addAttribute("sort", Sort.values());
         model.addAttribute("allExtras", Extra.values());
 
-        List<OfferDisplayDto> offers = offerService.searchOffers(searchOfferDto);
-        model.addAttribute("offers", offers);
-        return "offers-search";
     }
+
+    @GetMapping("/offers")
+    public String showOffersResults(@Valid SearchOfferDto searchOfferDto, OfferDisplayDto offerDisplayDto,
+                                    BindingResult bindingResult, RedirectAttributes redirectAttributes,
+                                    Model model) {
+
+redirectAttributes.addFlashAttribute("searchOfferDto", searchOfferDto);
+        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.searchOfferDto", bindingResult);
+
+        populateDropdowns(model);
+        if (bindingResult.hasErrors()) {
+            return "offers-search";
+        }
+
+        model.addAttribute("offers", offerService.searchOffers(searchOfferDto));
+        model.addAttribute("offer.id", offerDisplayDto.getId());
+
+        return "offers-all";
+    }
+
+    @GetMapping("/offers/details/{id}")
+    public String showOfferDetails (@PathVariable("id") UUID id, Model model) {
+
+        OfferDisplayDto offerDto = offerService.getOfferById(id);
+        model.addAttribute("offer", offerDto);
+        return "offer-details";
+
+    }
+
+    @PostMapping("/offers/delete/{id}")
+    public String deleteOffer(@PathVariable("id") UUID id,
+                              @AuthenticationPrincipal UserDetails userDetails) {
+
+        offerService.deleteOffer(id, userDetails.getUsername());
+
+     return "redirect:/offers";
+    }
+
+    @GetMapping("/offers/edit/{id}")
+    public String editOffer(@PathVariable("id") UUID id, Model model) {
+
+
+        AddOfferDto offerDto = offerService.getOfferForEdit(id);
+        model.addAttribute("addOfferDto", offerDto);
+        model.addAttribute("offerId", id);
+
+        int currentYear = java.time.Year.now().getValue();
+
+        List<Integer> years = new ArrayList<>();
+
+        for (int i = currentYear; i >= 1930; i--) {
+            years.add(i);
+        }
+        model.addAttribute("brands", brandRepository.findAll());
+        model.addAttribute("years", years);
+        model.addAttribute("engines", Engine.values());
+        model.addAttribute("transmissions", Transmission.values());
+        model.addAttribute("colors", Color.values());
+        model.addAttribute("doors", DoorCount.values());
+        model.addAttribute("euroStandards", EuroStandard.values());
+        model.addAttribute("regions", Region.values());
+        model.addAttribute("allExtras", Extra.values());
+
+        return "offer-edit";
+    }
+    @PostMapping("/offers/edit/{id}")
+    public String editOfferConfirm(@PathVariable("id") UUID id,
+                                   @Valid AddOfferDto addOfferDto,
+                                   BindingResult bindingResult,
+                                   @AuthenticationPrincipal UserDetails userDetails,
+                                   Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("offerId", id);
+            model.addAttribute("brands", brandRepository.findAll());
+            model.addAttribute("allExtras", Extra.values());
+            return "offer-edit";
+        }
+
+        offerService.editOffer(id, addOfferDto, userDetails);
+
+        return "redirect:/offers/details/" + id;
+    }
+
+
+
 }
 

@@ -1,24 +1,38 @@
 package com.vehicles.demo.dtos;
 
-import com.vehicles.demo.enums.Engine;
-import com.vehicles.demo.enums.Transmission;
+import com.vehicles.demo.entities.OfferImage;
+import com.vehicles.demo.enums.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class OfferDisplayDto {
 
+    private UUID id;
     private String description;
     private BigDecimal price;
     private Integer year;
     private Integer mileage;
     private Engine engine;
     private Transmission transmission;
-    private String imageUrl;
-
+    private List<String> allImageUrls;
     private String brandName;
     private String modelName;
     private String sellerUsername;
+    private Set<Extra> extras;
+    private String imageUrl;
+    private List<OfferImage> images;
+    private String phoneNumber;
+    private Color color;
+    private EuroStandard euroStandard;
+    private DoorCount doorCount;
+    private Region region;
+    private String horsePower;
+    private String cubes;
+
 
     public OfferDisplayDto() {
 
@@ -73,12 +87,13 @@ public class OfferDisplayDto {
         this.transmission = transmission;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+
+    public List<String> getAllImageUrls() {
+        return allImageUrls;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setAllImageUrls(List<String> allImageUrls) {
+        this.allImageUrls = allImageUrls;
     }
 
     public String getBrandName() {
@@ -104,4 +119,97 @@ public class OfferDisplayDto {
     public void setSellerUsername(String sellerUsername) {
         this.sellerUsername = sellerUsername;
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+
+
+    public List<OfferImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<OfferImage> images) {
+        this.images = images;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+
+    public Set<Extra> getExtras() {
+        return extras;
+    }
+
+    public void setExtras(Set<Extra> extras) {
+        this.extras = extras;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public EuroStandard getEuroStandard() {
+        return euroStandard;
+    }
+
+    public void setEuroStandard(EuroStandard euroStandard) {
+        this.euroStandard = euroStandard;
+    }
+
+    public DoorCount getDoorCount() {
+        return doorCount;
+    }
+
+    public void setDoorCount(DoorCount doorCount) {
+        this.doorCount = doorCount;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
+    public String getHorsePower() {
+        return horsePower;
+    }
+
+    public void setHorsePower(String horsePower) {
+        this.horsePower = horsePower;
+    }
+
+    public String getCubes() {
+        return cubes;
+    }
+
+    public void setCubes(String cubes) {
+        this.cubes = cubes;
+    }
 }
+
+

@@ -67,5 +67,6 @@ public class DataInitializer implements CommandLineRunner {
         brandRepository.save(ssangyong);
 
 
+
     }
 }

@@ -1,7 +1,9 @@
 package com.vehicles.demo.dtos;
 
-import com.vehicles.demo.enums.Extra;
+import com.vehicles.demo.enums.*;
+import com.vehicles.demo.enums.Color;
 
+import java.awt.*;
 import java.math.BigDecimal;
 import java.util.Set;
 import java.util.UUID;
@@ -19,6 +21,13 @@ public class SearchOfferDto {
     private Integer minHorsePower;
     private Integer maxHorsePower;
     private Set<Extra> extras;
+    private Color color;
+    private Transmission transmission;
+    private DoorCount doorCount;
+    private EuroStandard euroStandard;
+    private Region region;
+    private Sort sort;
+    private Engine engine;
 
 
 
@@ -112,5 +121,61 @@ public class SearchOfferDto {
 
     public void setExtras(Set<Extra> extras) {
         this.extras = extras;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public Transmission getTransmission() {
+        return transmission;
+    }
+
+    public void setTransmission(Transmission transmission) {
+        this.transmission = transmission;
+    }
+
+    public DoorCount getDoorCount() {
+        return doorCount;
+    }
+
+    public void setDoorCount(DoorCount doorCount) {
+        this.doorCount = doorCount;
+    }
+
+    public EuroStandard getEuroStandard() {
+        return euroStandard;
+    }
+
+    public void setEuroStandard(EuroStandard euroStandard) {
+        this.euroStandard = euroStandard;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
+    public Sort getSort() {
+        return sort;
+    }
+
+    public void setSort(Sort sort) {
+        this.sort = sort;
+    }
+
+    public Engine getEngine() {
+        return engine;
+    }
+
+    public void setEngine(Engine engine) {
+        this.engine = engine;
     }
 }

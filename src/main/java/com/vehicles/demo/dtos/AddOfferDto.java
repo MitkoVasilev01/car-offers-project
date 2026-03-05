@@ -1,14 +1,15 @@
 package com.vehicles.demo.dtos;
 
 import com.vehicles.demo.entities.Model;
-import com.vehicles.demo.enums.Engine;
-import com.vehicles.demo.enums.Extra;
-import com.vehicles.demo.enums.Transmission;
+import com.vehicles.demo.enums.*;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class AddOfferDto {
     private BigDecimal price;
 
     @NotNull
-    @Min(1900)
+    @Min(1930)
     private Integer year;
 
     @NotNull
@@ -36,12 +37,27 @@ public class AddOfferDto {
     @Enumerated(EnumType.STRING)
     private Transmission transmission;
 
-    private Set<Extra> extras;
+    @Enumerated(EnumType.STRING)
+    private Region region;
+
+    private Set<Extra> extras = new HashSet<>();
 
     @NotNull
     private UUID modelId;
 
-    private String imageUrl;
+    private List<MultipartFile> images;
+
+    private DoorCount doorCount;
+
+    private EuroStandard euroStandard;
+
+    private Color color;
+
+    private String phoneNumber;
+
+    private String horsePower;
+
+    private String cubes;
 
     public AddOfferDto() {
     }
@@ -102,12 +118,12 @@ public class AddOfferDto {
         this.modelId = modelId;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public List<MultipartFile> getImages() {
+        return images;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImages(List<MultipartFile> images) {
+        this.images = images;
     }
 
     public Set<Extra> getExtras() {
@@ -116,5 +132,61 @@ public class AddOfferDto {
 
     public void setExtras(Set<Extra> extras) {
         this.extras = extras;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
+
+    public DoorCount getDoorCount() {
+        return doorCount;
+    }
+
+    public void setDoorCount(DoorCount doorCount) {
+        this.doorCount = doorCount;
+    }
+
+    public EuroStandard getEuroStandard() {
+        return euroStandard;
+    }
+
+    public void setEuroStandard(EuroStandard euroStandard) {
+        this.euroStandard = euroStandard;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getHorsePower() {
+        return horsePower;
+    }
+
+    public void setHorsePower(String horsePower) {
+        this.horsePower = horsePower;
+    }
+
+    public String getCubes() {
+        return cubes;
+    }
+
+    public void setCubes(String cubes) {
+        this.cubes = cubes;
     }
 }

@@ -1,132 +1,109 @@
-
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="bg" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FindCar | Намери своята кола</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
-body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f8f9fa;
-    color: #212529;
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
 
+        .navbar-custom {
+            background-color: #1a1a1a !important;
+            padding: 1rem 0;
+        }
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+        .nav-item1 {
+            margin-left: 15px;
+            margin-right: 15px;
+        }
 
-.hero-section {
-    position: relative;
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
-    background-size: cover;
-    background-position: center;
-    height: 540px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
-    margin-bottom: 3rem;
-}
+        .hero-section {
+            position: relative;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+                        url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 5rem;
+        }
 
-.hero-content h1 {
-    font-size: 3.5rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-}
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+        }
 
-.hero-content p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    opacity: 0.9;
-}
-
-
-.search-container {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    max-width: 1600px;
-    margin: 3 auto;
-}
-
-
-.offer-card {
-    border: none;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background: white;
-}
-
-.offer-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-}
-
-.offer-img-wrapper {
-    position: relative;
-    height: 220px;
-    overflow: hidden;
-}
-
-.offer-img-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.offer-card:hover .offer-img-wrapper img {
-    transform: scale(1.05);
-}
-
-.offer-price {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #28a745;
-}
-
-.badge-custom {
-    background-color: #e9ecef;
-    color: #495057;
-    font-weight: 500;
-    padding: 0.5em 0.8em;
-    border-radius: 6px;
-}
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.8);
+        }
 
 
-.navbar-custom {
-    background-color: #1a1a1a !important;
-    padding: 1rem 0;
-}
+        .search-wrapper {
+            position: relative;
+            margin-top: -100px;
+            z-index: 10;
 
-.navbar-brand {
-    font-weight: 800;
-    font-size: 1.5rem;
-    letter-spacing: -0.5px;
+        }
 
-}
-    .nav-item1 {
-        margin-left: 15px;
-        margin-right: 15px;
-}
-        .col-md-3 {
-        width: 400px;
-}
-        .col-md-4 {
-        width: 400px;
-}
+        .search-container {
+            background: #ffffff;
+            padding: 30px;
+            margin-top: 100px;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
 
+        .category-card {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background-color: #fff3cd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            transition: background 0.3s;
+        }
+        .category-card:hover .icon-circle {
+            background-color: #ffc107;
+        }
+
+        .cta-section {
+            background: linear-gradient(90deg, #1a1a1a 0%, #333333 100%);
+            color: white;
+            padding: 80px 0;
+            margin-top: 80px;
+        }
     </style>
 </head>
 
 <body>
-
 
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
     <div class="container">
@@ -165,151 +142,87 @@ body {
     </div>
 </nav>
 
-
 <div class="hero-section">
-    <div class="container hero-content pt-5">
-
-        <h1 class="mb-2">Открий следващата си кола</h1>
-        <p class="mb-6 text-white-50">Бързо, лесно и сигурно търсене сред хиляди обяви.</p>
-
-
-        <div class="search-container row g-3 text-dark row g-30">
-
-            <form action="/offers/search" method="get">
-                <div class="row g-3 align-items-end">
-
-
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-start w-100 ps-1"><small>МАРКА / МОДЕЛ</small></label>
-                        <select name="modelId" class="form-select form-select-lg">
-                            <option value="">Всички</option>
-
-                            <optgroup th:each="brand : ${brands}" th:label="${brand.name}">
-                                <option th:each="model : ${brand.models}"
-                                        th:value="${model.id}"
-                                        th:text="${model.name}">X5</option>
-                            </optgroup>
-                        </select>
-                    </div>
-
-
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold text-start w-100 ps-1"><small>ГОДИНА (ОТ)</small></label>
-                       <select name="minYear" class="form-select form-select-lg">
-                           <option value =""></option>
-                           <option th:each="year    :${years}"
-                                   th:value="${year}"
-                                   th:text="${year}">
-                           </option>
-                       </select>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold text-start w-100 ps-1"><small>ГОДИНА (ДО)</small></label>
-                        <select name="minYear" class="form-select form-select-lg">
-                            <option value =""></option>
-                            <option th:each="year    :${years}"
-                                    th:value="${year}"
-                                    th:text="${year}">
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold text-start w-100 ps-1"><small>МИН. ЦЕНА</small></label>
-                        <div class="input-group input-group-lg">
-                            <input type="price" name="minPrice" class="form-control" placeholder="EUR.">
-                            <span class="input-group-text bg-white">EUR</span>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold text-start w-100 ps-1"><small>МАКС. ЦЕНА</small></label>
-                        <div class="input-group input-group-lg">
-                            <input type="price" name="maxPrice" class="form-control" placeholder="EUR.">
-                            <span class="input-group-text bg-white">EUR</span>
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold text-start w-100 ps-1"><small>ДВИГАТЕЛ</small></label>
-                        <select name="minYear" class="form-select form-select-lg">
-                            <option value="">Всички</option>
-                               <option th:each="e :${engines}"
-                                       th:value="${e}"
-                                       th:text="${e}">
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-warning btn-lg w-100 fw-bold shadow-sm">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-
-                </div>
-            </form>
-        </div>
-
+    <div class="container hero-content">
+        <h1 class="display-3">Намери мечтаната кола</h1>
+        <p class="lead fs-4">Хиляди проверени обяви на едно място.</p>
     </div>
 </div>
 
+<div class="container search-wrapper">
+    <div class="search-container">
+        <h4 class="mb-4 fw-bold"><i class="fas fa-search text-warning"></i> Бързо търсене</h4>
 
-<div class="container mb-5">
-    <h4 class="text-center fw-bold text-secondary mb-4">Търси по категория</h4>
-    <div class="row text-center">
-        <div class="col-md-3 mb-3">
-            <a href="/offers/all?category=cars" class="text-decoration-none text-dark">
-                <div class="p-4 bg-white rounded shadow-sm offer-card">
-                    <i class="fas fa-car-side fa-3x text-warning mb-3"></i>
-                    <h5 class="mb-0 fw-bold">Автомобили</h5>
+        <form action="/offers" method="get">
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <label class="form-label text-muted small fw-bold">МАРКА</label>
+                    <select name="modelId" class="form-select form-select-lg bg-light border-0">
+                        <option value="">Всички</option>
+                        <optgroup th:each="brand : ${brands}" th:label="${brand.name}">
+                            <option th:each="model : ${brand.models}"
+                                    th:value="${model.id}"
+                                    th:text="${model.name}">X5</option>
+                        </optgroup>
+                    </select>
                 </div>
-            </a>
-        </div>
-        <div class="col-md-3 mb-3">
-            <a href="/offers/all?category=trucks" class="text-decoration-none text-dark">
-                <div class="p-4 bg-white rounded shadow-sm offer-card">
-                    <i class="fas fa-truck-pickup fa-3x text-warning mb-3"></i>
-                    <h5 class="mb-0 fw-bold">Камиони</h5>
+
+                <div class="col-md-2">
+                    <label class="form-label text-muted small fw-bold">ГОДИНА (ОТ)</label>
+                    <select name="minYear" class="form-select form-select-lg bg-light border-0">
+                        <option value="">Всички</option>
+                        <option th:each="year : ${years}" th:value="${year}" th:text="${year}"></option>
+                    </select>
                 </div>
-            </a>
-        </div>
-        <div class="col-md-3 mb-3">
-            <a href="/offers/all?category=buses" class="text-decoration-none text-dark">
-                <div class="p-4 bg-white rounded shadow-sm offer-card">
-                    <i class="fas fa-bus fa-3x text-warning mb-3"></i>
-                    <h5 class="mb-0 fw-bold">Бусове</h5>
+
+                <div class="col-md-2">
+                    <label class="form-label text-muted small fw-bold">МАКС. ЦЕНА</label>
+                    <input type="number" name="maxPrice" class="form-control form-control-lg bg-light border-0" placeholder="€">
                 </div>
-            </a>
-        </div>
-        <div class="col-md-3 mb-3">
-            <a href="/offers/all?category=motorcycles" class="text-decoration-none text-dark">
-                <div class="p-4 bg-white rounded shadow-sm offer-card">
-                    <i class="fas fa-motorcycle fa-3x text-warning mb-3"></i>
-                    <h5 class="mb-0 fw-bold">Мотоциклети</h5>
+
+                <div class="col-md-3">
+                    <label class="form-label text-muted small fw-bold">ДВИГАТЕЛ</label>
+                    <select name="engine" class="form-select form-select-lg bg-light border-0">
+                        <option value="">Всички</option>
+                        <option th:each="e : ${engines}"
+                                th:value="${e}"
+                                th:text="${e.label}">
+                        </option>
+                    </select>
                 </div>
-            </a>
-        </div>
-        <div class="col-md-3 mb-3">
-            <a href="/offers/all?category=tires" class="text-decoration-none text-dark">
-                <div class="p-4 bg-white rounded shadow-sm offer-card">
-                    <i class="fa-solid fa-compact-disc fa-3x text-warning mb-3"></i>
-                    <h5 class="mb-0 fw-bold">Гуми и джанти</h5>
+
+
+                <div class="col-md-2 d-grid">
+                    <label class="form-label d-none d-md-block">&nbsp;</label>
+                    <button type="submit" class="btn btn-warning btn-lg fw-bold text-dark">
+                        ТЪРСИ
+                    </button>
                 </div>
-            </a>
-        </div>
-        <div class="col-md-3 mb-3">
-            <a href="/offers/all?category=parts" class="text-decoration-none text-dark">
-                <div class="p-4 bg-white rounded shadow-sm offer-card">
-                    <i class="fa-solid fa-screwdriver-wrench fa-3x text-warning mb-3"></i>
-                    <h5 class="mb-0 fw-bold">Части</h5>
-                </div>
-            </a>
+            </div>
+        </form>
+    </div>
+</div>
+
         </div>
     </div>
 </div>
+
+<section class="cta-section text-center">
+    <div class="container">
+        <h2 class="fw-bold mb-3">Искаш да продадеш колата си?</h2>
+        <p class="lead mb-4 text-white-50">Публикувай обява в FindCar и намери купувач бързо.</p>
+        <a href="/offers/add" class="btn btn-warning btn-lg px-5 fw-bold rounded-pill shadow">
+            <i class="fas fa-plus-circle"></i> ДОБАВИ ОБЯВА
+        </a>
+    </div>
+</section>
+
+<footer class="bg-dark text-white py-4 mt-0">
+    <div class="container text-center">
+        <p class="mb-0">&copy; 2026 FindCar. Всички права запазени.</p>
+    </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

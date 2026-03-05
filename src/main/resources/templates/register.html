@@ -1,59 +1,169 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="bg" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Регистрация</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация | FindCar</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<div class="container mt-5">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+    .navbar-custom {
+        background-color: #1a1a1a !important;
+        padding: 1rem 0;
+    }
+    .navbar-brand {
+        font-weight: 800;
+        font-size: 1.5rem;
+        letter-spacing: -0.5px;
+    }
+
+    .auth-card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .auth-card-header {
+        background-color: #1a1a1a;
+        color: #ffc107;
+        text-align: center;
+        font-weight: bold;
+        padding: 1.5rem;
+        border-bottom: 4px solid #ffc107;
+    }
+
+    .input-group-text {
+        background-color: #f1f3f5;
+        border: 1px solid #ced4da;
+        color: #495057;
+    }
+
+    .btn-theme {
+        background-color: #ffc107;
+        color: #212529;
+        font-weight: 700;
+        border: none;
+        transition: all 0.3s;
+    }
+    .btn-theme:hover {
+        background-color: #e0a800;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <i class="fas fa-car-side text-warning"></i> FindCar
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navContent">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link" href="/">Начало</a></li>
+        <li class="nav-item"><a class="nav-link" href="/offers/search">Разширено търсене</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" style="margin-top: 110px; margin-bottom: 50px;">
   <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-          <h4 class="mb-0">Регистрация</h4>
+    <div class="col-md-6 col-lg-5">
+
+      <div class="card auth-card shadow-lg">
+
+        <div class="auth-card-header">
+          <h3 class="mb-0"><i class="fas fa-user-plus"></i> Регистрация</h3>
+          <small class="text-white-50 fw-normal">Създай профил за секунди</small>
         </div>
-        <div class="card-body">
+
+        <div class="card-body p-4 p-md-5">
 
           <form th:action="@{/users/register}" th:object="${userRegisterDto}" method="post">
 
             <div class="mb-3">
-              <label class="form-label">Потребителско име</label>
-              <input type="text" th:field="*{username}" class="form-control" th:errorclass="is-invalid">
-              <div class="invalid-feedback" th:errors="*{username}">Грешка</div>
+              <label class="form-label fw-bold small text-muted">ПОТРЕБИТЕЛСКО ИМЕ</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                <input type="text" th:field="*{username}"
+                       class="form-control form-control-lg"
+                       placeholder="Избери име (напр. ivan99)"
+                       th:errorclass="is-invalid">
+              </div>
+              <small class="text-danger fw-bold" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></small>
             </div>
 
             <div class="mb-3">
-              <label class="form-label">Имейл</label>
-              <input type="email" th:field="*{email}" class="form-control" th:errorclass="is-invalid">
-              <div class="invalid-feedback" th:errors="*{email}"></div>
+              <label class="form-label fw-bold small text-muted">ИМЕЙЛ АДРЕС</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                <input type="email" th:field="*{email}"
+                       class="form-control form-control-lg"
+                       placeholder="name@example.com"
+                       th:errorclass="is-invalid">
+              </div>
+              <small class="text-danger fw-bold" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
             </div>
 
             <div class="mb-3">
-              <label class="form-label">Парола</label>
-              <input type="password" th:field="*{password}" class="form-control" th:errorclass="is-invalid">
-              <div class="invalid-feedback" th:errors="*{password}"></div>
+              <label class="form-label fw-bold small text-muted">ПАРОЛА</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                <input type="password" th:field="*{password}"
+                       class="form-control form-control-lg"
+                       placeholder="******"
+                       th:errorclass="is-invalid">
+              </div>
+              <small class="text-danger fw-bold" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label">Потвърди Парола</label>
-              <input type="password" th:field="*{confirmPassword}" class="form-control">
-
-              <div th:if="${passMismatch}" class="text-danger small">Паролите не съвпадат!</div>
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-muted">ПОТВЪРДИ ПАРОЛА</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                <input type="password" th:field="*{confirmPassword}"
+                       class="form-control form-control-lg"
+                       placeholder="******">
+              </div>
+              <div th:if="${passMismatch}" class="text-danger fw-bold small mt-1">
+                <i class="fas fa-exclamation-triangle"></i> Паролите не съвпадат!
+              </div>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100">Регистрирай се</button>
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-theme btn-lg py-3">
+                <i class="fas fa-check-circle"></i> СЪЗДАЙ АКАУНТ
+              </button>
+            </div>
+
           </form>
 
-          <div class="mt-3 text-center">
-            <a href="/users/login">Вече имаш акаунт? Влез тук.</a>
+          <div class="mt-4 text-center border-top pt-3">
+            <p class="text-muted mb-0">Вече имаш акаунт?</p>
+            <a href="/users/login" class="text-warning fw-bold text-decoration-none fs-5">Влез тук <i class="fas fa-arrow-right"></i></a>
           </div>
+
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

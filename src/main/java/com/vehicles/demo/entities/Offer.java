@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,7 +33,8 @@ public class Offer extends BaseEntity {
     @Column(nullable = false)
     private Integer mileage;
 
-    private String imageUrl;
+    @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<OfferImage> images = new ArrayList<>();
 
     @Column(name = "created_on")
     private LocalDateTime createdOn;
@@ -59,12 +62,16 @@ public class Offer extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Sort sort;
 
-    private boolean isTaxi;
-
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "offer_extras")
     private Set<Extra> extras;
+
+    private String phoneNumber;
+
+    private String horsePower;
+
+    private String cubes;
 
     public Offer () {
     }
@@ -117,12 +124,12 @@ public class Offer extends BaseEntity {
         this.mileage = mileage;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public List<OfferImage> getImages() {
+        return images;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImages(List<OfferImage> images) {
+        this.images = images;
     }
 
     public LocalDateTime getCreatedOn() {
@@ -189,13 +196,6 @@ public class Offer extends BaseEntity {
         this.sort = sort;
     }
 
-    public boolean isTaxi() {
-        return isTaxi;
-    }
-
-    public void setTaxi(boolean taxi) {
-        isTaxi = taxi;
-    }
 
     public Set<Extra> getExtras() {
         return extras;
@@ -203,5 +203,29 @@ public class Offer extends BaseEntity {
 
     public void setExtras(Set<Extra> extras) {
         this.extras = extras;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getHorsePower() {
+        return horsePower;
+    }
+
+    public void setHorsePower(String horsePower) {
+        this.horsePower = horsePower;
+    }
+
+    public String getCubes() {
+        return cubes;
+    }
+
+    public void setCubes(String cubes) {
+        this.cubes = cubes;
     }
 }

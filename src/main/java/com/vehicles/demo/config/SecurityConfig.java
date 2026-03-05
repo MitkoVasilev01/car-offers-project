@@ -12,10 +12,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-
                 .authorizeHttpRequests(authorize -> authorize
 
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**", "/webjars/**", "/error", "/offers/all", "/offers/search").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/fonts/**", "/webjars/**", "/error", "/offers", "/offers/all", "/offers/search", "/offers/details/{id}", "/uploads/**").permitAll()
 
                         .requestMatchers("/", "/index", "/users/register", "/users/login").permitAll()
 
@@ -28,12 +27,15 @@ public class SecurityConfig {
                         .failureUrl("/users/login?error")
                         .permitAll()
                 )
-
                 .logout(logout -> logout
                         .logoutUrl("/users/logout")
                         .logoutSuccessUrl("/")
                         .permitAll()
-                );
+                )
+        .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/offers/add")
+        );
+
 
         return http.build();
     }

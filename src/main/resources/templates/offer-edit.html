@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Редактиране на обява</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-header bg-warning text-dark">
+          <h4 class="mb-0">Продай колата си</h4>
+        </div>
+        <div class="card-body">
+
+          <form th:action="@{/offers/edit/{id}(id=${offerId})}"
+                th:object="${addOfferDto}"
+                method="post"
+                enctype="multipart/form-data">
+
+
+            <div class="mb-3">
+              <label class="form-label">Марка и Модел</label>
+              <select th:field="*{modelId}" class="form-select" required>
+                <option value=""></option>
+                <optgroup th:each="brand : ${brands}" th:label="${brand.name}">
+                  <option th:each="model : ${brand.models}"
+                          th:value="${model.id}"
+                          th:text="${model.name}">X5</option>
+                </optgroup>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Описание</label>
+              <textarea th:field="*{description}" class="form-control" rows="3"></textarea>
+              <div class="text-danger" th:errors="*{description}">Error</div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Двигател</label>
+                <select th:field="*{engine}" class="form-select" required>
+                  <option value=""></option>
+                  <option th:each="e : ${engines}" th:value="${e}" th:text="${e.label}"></option>
+                </select>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Скорости</label>
+                <select th:field="*{transmission}" class="form-select" required>
+                  <option value=""></option>
+                  <option th:each="t : ${transmissions}" th:value="${t}" th:text="${t.label}"></option>
+                </select>
+              </div>
+              <div class="row">
+                <div class="col-md-3 mb-3">
+                  <label class="form-label">Регион</label>
+                  <select th:field="*{region}" class="form-select" required>
+                    <option value=""></option>
+                    <option th:each="r : ${regions}" th:value="${r}" th:text="${r.label}"></option>
+                  </select>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                  <label class="form-label">Брой врати</label>
+                  <select th:field="*{doorCount}" class="form-select" required>
+                    <option value=""></option>
+                    <option th:each="d : ${doors}" th:value="${d}" th:text="${d.label}"></option>
+                  </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label class="form-label">Евростандарт</label>
+                  <select th:field="*{euroStandard}" class="form-select" required>
+                    <option value=""></option>
+                    <option th:each="e : ${euroStandards}" th:value="${e}" th:text="${e}"></option>
+                  </select>
+                </div>
+                <div class="col-md-3 mb-3">
+                  <label class="form-label">Цвят</label>
+                  <select th:field="*{color}" class="form-select" required>
+                    <option value=""></option>
+                    <option th:each="c : ${colors}" th:value="${c}" th:text="${c.label}"></option>
+                  </select>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Конски сили</label>
+                    <input type="text" th:field="*{horsePower}" class="form-control">
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Куб. см.</label>
+                    <input type="text" th:field="*{cubes}" class="form-control">
+                  </div>
+
+              </div>
+
+
+
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Цена (Евро)</label>
+                <input type="text" th:field="*{price}" class="form-control">
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Година</label>
+                <select th:field="*{year}" class="form-select">
+                  <option value =""></option>
+                  <option th:each="year    :${years}"
+                          th:value="${year}"
+                          th:text="${year}">
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Пробег (км)</label>
+                <input type="text" th:field="*{mileage}" class="form-control">
+              </div>
+            </div>
+
+
+            <div class="mb-4">
+              <label class="form-label ">Снимки</label>
+              <div class="input-group">
+                <input type="file"
+                       th:field="*{images}"
+                       class="form-control"
+                       accept="image/*"
+                       multiple>
+              </div>
+
+              <div class="text-danger small" th:if="${#fields.hasErrors('images')}" th:errors="*{images}">Error</div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label ">Екстри:</label>
+              <div class="card p-3 border-0 bg-light">
+                <div class="row">
+                  <div class="col-md-4 mb-2" th:each="extraItem : ${allExtras}">
+                    <div class="form-check">
+                      <input type="checkbox"
+                             class="form-check-input"
+                             th:field="*{extras}"
+                             th:value="${extraItem}">
+                      <label class="form-check-label"
+                             th:text="${extraItem.label}"
+                             th:for="${#ids.prev('extras')}">
+                        Климатик
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Тел. номер за връзка</label>
+                <input type="text" th:field="*{phoneNumber}" class="form-control">
+              </div>
+
+              <button type="submit" class="btn btn-warning w-100 fw-bold py-3">
+                <i class="fas fa-check-circle"></i> Публикувай обявата
+              </button>
+
+              </form>
+
+  </body>
+</html>
