@@ -13,6 +13,7 @@ public class Brand extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OrderBy("name ASC")
     private List<Model> models = new ArrayList<>();
 
     public Brand() {

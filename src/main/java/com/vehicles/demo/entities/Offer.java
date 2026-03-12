@@ -73,6 +73,7 @@ public class Offer extends BaseEntity {
 
     private String cubes;
 
+
     public Offer () {
     }
 

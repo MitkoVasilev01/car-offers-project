@@ -84,13 +84,17 @@ public class OfferController {
     }
 
     @GetMapping("/offers/search")
-    public String searchOffersForm(Model model) {
+    public String searchOffersForm(SearchOfferDto searchOfferDto, Model model) {
 
         if (!model.containsAttribute("searchOfferDto")) {
             model.addAttribute("searchOfferDto", new SearchOfferDto());
         }
 
+
+
         populateDropdowns(model);
+
+        model.addAttribute("offers", offerService.searchOffers(searchOfferDto));
 
         return "offers-search";
     }
@@ -198,8 +202,6 @@ redirectAttributes.addFlashAttribute("searchOfferDto", searchOfferDto);
 
         return "redirect:/offers/details/" + id;
     }
-
-
 
 }
 

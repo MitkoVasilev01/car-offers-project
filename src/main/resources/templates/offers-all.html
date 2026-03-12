@@ -23,7 +23,7 @@
             padding: 100px;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            max-width: 1000px;
+            max-width: 1500px;
             margin: auto;
         }
             .hero-content p {
@@ -40,6 +40,19 @@
                 margin-left: 30px;
                 margin-right: 15px;
         }
+
+        .offer-img-wrapper {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+.offer-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
 
     </style>
 </head>
@@ -91,7 +104,7 @@
           method="get">
         <div class="row g-3 align-items-end">
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label class="form-label fw-bold text-start w-100 ps-1"><small>МАРКА / МОДЕЛ</small></label>
                 <select name="modelId" class="form-select form-select-lg">
                     <option value="">Всички</option>
@@ -253,7 +266,7 @@
             <div class="col-md-3">
                 <label class="form-label fw-bold text-start w-100 ps-1"><small>СОРТИРАЙ ПО:</small></label>
                 <select name="sort" class="form-select form-select-lg">
-                    <option value="">Най-нова обява</option>
+                    <option value="">Без значение</option>
                     <option th:each="s :${sort}"
                             th:value="${s.name}"
                             th:text="${s.label}">
@@ -309,11 +322,10 @@
 
         <div th:each="offer : ${offers}" class="col-md-4 mb-4">
 
-
-            <div class="card h-100 shadow-sm border-0">
-
-
+            <div class="card offer-card h-100 shadow-sm">
+                <div class="offer-img-wrapper">
                 <img th:src="${offer.imageUrl != null} ? ${offer.imageUrl} : '/images/no-image.png'">
+</div>
 
 
 

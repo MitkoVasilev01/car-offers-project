@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -59,6 +60,7 @@ public class OfferService {
         offer.setColor(addOfferDto.getColor());
         offer.setCubes(addOfferDto.getCubes());
         offer.setHorsePower(addOfferDto.getHorsePower());
+        offer.setCreatedOn(LocalDateTime.now());
 
         User seller = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
         offer.setSeller(seller);
@@ -193,6 +195,7 @@ public class OfferService {
         dto.setColor(offer.getColor());
         dto.setHorsePower(offer.getHorsePower());
         dto.setCubes(offer.getCubes());
+        dto.setCreatedOn(offer.getCreatedOn());
 
 
 

@@ -4,6 +4,7 @@ import com.vehicles.demo.entities.OfferImage;
 import com.vehicles.demo.enums.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,7 @@ public class OfferDisplayDto {
     private Region region;
     private String horsePower;
     private String cubes;
+    private LocalDateTime createdOn;
 
 
     public OfferDisplayDto() {
@@ -209,6 +211,14 @@ public class OfferDisplayDto {
 
     public void setCubes(String cubes) {
         this.cubes = cubes;
+    }
+
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
     }
 }
 
