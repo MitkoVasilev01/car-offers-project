@@ -28,3 +28,13 @@ spring.datasource.password=your_password
 
 3. Run the application via your IDE or terminal:
 mvn spring-boot:run
+
+Screenshots:
+
+**Home page:**
+![Начална страница](home-page.jpg)
+
+**Offer details:**
+![Детайли](offer-details.jpg)
+
+
