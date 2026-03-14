@@ -32,9 +32,9 @@ mvn spring-boot:run
 Screenshots:
 
 **Home page:**
-![Начална страница](home-page.jpg)
+![Начална страница](home-page.png)
 
 **Offer details:**
-![Детайли](offer-details.jpg)
+![Детайли](offer-details.png)
 
 
