@@ -35,6 +35,16 @@ Screenshots:
 ![Начална страница](home-page.png)
 
 **Offer details:**
-![Детайли](offer-details.png)
+![Детайли](offer-details-2.png)
+
+**Offer add:**
+![Добавяне на обява](offer-add.png)
+
+**Offers all:**
+![Всички обяви](offers-all.png)
+
+
+
+
 
 
