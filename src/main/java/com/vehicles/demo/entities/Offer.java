@@ -69,9 +69,9 @@ public class Offer extends BaseEntity {
 
     private String phoneNumber;
 
-    private String horsePower;
+    private Integer horsePower;
 
-    private String cubes;
+    private Integer cubes;
 
 
     public Offer () {
@@ -214,19 +214,19 @@ public class Offer extends BaseEntity {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getHorsePower() {
+    public Integer getHorsePower() {
         return horsePower;
     }
 
-    public void setHorsePower(String horsePower) {
+    public void setHorsePower(Integer horsePower) {
         this.horsePower = horsePower;
     }
 
-    public String getCubes() {
+    public Integer getCubes() {
         return cubes;
     }
 
-    public void setCubes(String cubes) {
+    public void setCubes(Integer cubes) {
         this.cubes = cubes;
     }
 }

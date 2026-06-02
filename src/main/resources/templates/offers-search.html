@@ -40,6 +40,15 @@
             margin-left: 30px;
             margin-right: 15px;
     }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
 
   </style>
 </head>
@@ -93,7 +102,7 @@
 
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small>МАРКА / МОДЕЛ</small></label>
-        <select name="modelId" class="form-select form-select-lg">
+        <select th:field="*{modelId}" class="form-select form-select-lg">
           <option value="">Всички</option>
 
           <optgroup th:each="brand : ${brands}" th:label="${brand.name}">
@@ -107,7 +116,7 @@
 
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small>ГОДИНА (ОТ)</small></label>
-        <select name="minYear" class="form-select form-select-lg">
+        <select th:field="*{minYear}" class="form-select form-select-lg">
           <option value =""></option>
           <option th:each="year    :${years}"
                   th:value="${year}"
@@ -118,7 +127,7 @@
 
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small>ГОДИНА (ДО)</small></label>
-        <select name="maxYear" class="form-select form-select-lg">
+        <select th:field="*{maxYear}" class="form-select form-select-lg">
           <option value =""></option>
           <option th:each="year    :${years}"
                   th:value="${year}"
@@ -130,7 +139,7 @@
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small>МИН. ЦЕНА</small></label>
         <div class="input-group input-group-lg">
-          <input type="minPrice" name="minPrice" class="form-control" placeholder="EUR.">
+          <input type="number" th:field="*{minPrice}" min="0" class="form-control" placeholder="EUR.">
           <span class="input-group-text bg-white">EUR</span>
         </div>
       </div>
@@ -138,14 +147,14 @@
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small>МАКС. ЦЕНА</small></label>
         <div class="input-group input-group-lg">
-          <input type="maxPrice" name="maxPrice" class="form-control" placeholder="EUR.">
+          <input type="number" th:field="*{maxPrice}" min="0" class="form-control" placeholder="EUR.">
           <span class="input-group-text bg-white">EUR</span>
         </div>
       </div>
 
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small>ДВИГАТЕЛ</small></label>
-        <select name="engine" class="form-select form-select-lg">
+        <select th:field="*{engine}" class="form-select form-select-lg">
           <option value="">Всички</option>
           <option th:each="e :${engines}"
                   th:value="${e.name}"
@@ -158,7 +167,7 @@
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small>МАКС. ПРОБЕГ</small></label>
         <div class="input-group input-group-lg">
-          <input type="mileage" name="mileage" class="form-control" placeholder="Км.">
+          <input type="number" th:field="*{mileage}" min="0" class="form-control" placeholder="Км.">
           <span class="input-group-text bg-white">Км.</span>
         </div>
       </div>
@@ -166,7 +175,7 @@
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small> МИН. КУБ. СМ.</small></label>
         <div class="input-group input-group-lg">
-          <input type="minCubes" name="min-cubes" class="form-control" placeholder="Куб. См.">
+          <input type="number" th:field="*{minCubes}" min="0" class="form-control" placeholder="Куб. См.">
           <span class="input-group-text bg-white">Куб. См.</span>
         </div>
       </div>
@@ -174,7 +183,7 @@
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small> МАКС. КУБ. СМ.</small></label>
         <div class="input-group input-group-lg">
-          <input type="maxCubes" name="max-cubes" class="form-control" placeholder="Куб. См.">
+          <input type="number" th:field="*{maxCubes}" min="0" class="form-control" placeholder="Куб. См.">
           <span class="input-group-text bg-white">Куб. См.</span>
         </div>
       </div>
@@ -182,7 +191,7 @@
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small> МИН. К. С.</small></label>
         <div class="input-group input-group-lg">
-          <input type="horse-power" name="minHorsePower" class="form-control" placeholder="К. С.">
+          <input type="number" th:field="*{minHorsePower}" min="0" class="form-control" placeholder="К. С.">
           <span class="input-group-text bg-white">К. С.</span>
         </div>
       </div>
@@ -190,14 +199,14 @@
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small> МАКС. К. С.</small></label>
         <div class="input-group input-group-lg">
-          <input type="horse-power" name="maxHorsePower" class="form-control" placeholder="К. С.">
+          <input type="number" th:field="*{maxHorsePower}" min="0" class="form-control" placeholder="К. С.">
           <span class="input-group-text bg-white">К. С.</span>
         </div>
       </div>
 
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small>ЦВЯТ</small></label>
-        <select name="color" class="form-select form-select-lg">
+        <select th:field="*{color}" class="form-select form-select-lg">
           <option value="">Всички</option>
           <option th:each="c :${colors}"
                   th:value="${c.name()}"
@@ -208,7 +217,7 @@
 
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small>СКОРОСТНА КУТИЯ</small></label>
-        <select name="transmission" class="form-select form-select-lg">
+        <select th:field="*{transmission}" class="form-select form-select-lg">
           <option value="">Всички</option>
           <option th:each="t :${transmissions}"
                   th:value="${t.name()}"
@@ -219,7 +228,7 @@
 
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small>БРОЙ ВРАТИ</small></label>
-        <select name="doorCount" class="form-select form-select-lg">
+        <select th:field="*{doorCount}" class="form-select form-select-lg">
           <option value="">Всички</option>
           <option th:each="d :${doors}"
                   th:value="${d.name()}"
@@ -230,7 +239,7 @@
 
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small>ЕВРОСТАНДАРТ</small></label>
-        <select name="euroStandard" class="form-select form-select-lg">
+        <select th:field="*{euroStandard}" class="form-select form-select-lg">
           <option value="">Всички</option>
           <option th:each="e :${eurostandard}"
                   th:value="${e}"
@@ -241,7 +250,7 @@
 
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small>РЕГИОНИ</small></label>
-        <select name="region" class="form-select form-select-lg">
+        <select th:field="*{region}" class="form-select form-select-lg">
           <option value="">Всички</option>
           <option th:each="r :${regions}"
                   th:value="${r.name}"
@@ -252,7 +261,7 @@
 
       <div class="col-md-3">
         <label class="form-label fw-bold text-start w-100 ps-1"><small>СОРТИРАЙ ПО:</small></label>
-        <select name="sort" class="form-select form-select-lg">
+        <select th:field="*{sort}" class="form-select form-select-lg">
           <option value="">Най-нова обява</option>
           <option th:each="s :${sort}"
                   th:value="${s.name}"
@@ -292,9 +301,9 @@
         </button>
       </div>
 
-  </form>
+   </form>
 
-</body>
+  </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </html>

@@ -6,19 +6,19 @@ import jakarta.validation.constraints.Size;
 
 public class UserRegisterDto {
 
-    @NotBlank
-    @Size(min = 3)
+
+    @Size(min = 3, max = 30, message = "Потребителското име трябва да бъде най-малко 3 символа!")
     private String username;
 
-    @NotBlank
+
     @Email
     private String email;
 
-    @NotBlank
-    @Size(min = 6)
+
+    @Size(min = 8, max = 30, message = "Паролата трябва да бъде най-малко 8 символа!")
     private String password;
 
-    @NotBlank
+
     private String confirmPassword;
 
     public UserRegisterDto() {

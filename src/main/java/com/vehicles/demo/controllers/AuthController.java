@@ -48,9 +48,14 @@ public class AuthController {
             return "redirect:/users/register";
         }
 
-        userService.registerUser(userRegisterDto);
-
-        return "redirect:/users/login";
+        try {
+            userService.registerUser(userRegisterDto);
+            return "redirect:/users/login";
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("userRegisterDto", userRegisterDto);
+            redirectAttributes.addFlashAttribute("registrationError", e.getMessage());
+            return "redirect:/users/register";
+        }
     }
 
     @GetMapping("/login")

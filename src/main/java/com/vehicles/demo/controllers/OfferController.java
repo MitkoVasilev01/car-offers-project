@@ -3,15 +3,10 @@ package com.vehicles.demo.controllers;
 import com.vehicles.demo.dtos.AddOfferDto;
 import com.vehicles.demo.dtos.OfferDisplayDto;
 import com.vehicles.demo.dtos.SearchOfferDto;
-import com.vehicles.demo.entities.Offer;
 import com.vehicles.demo.enums.*;
 import com.vehicles.demo.repositories.BrandRepository;
-import com.vehicles.demo.repositories.ModelRepository;
-import com.vehicles.demo.repositories.OfferRepository;
 import com.vehicles.demo.services.OfferService;
-import jakarta.validation.Path;
 import jakarta.validation.Valid;
-import org.springframework.boot.Banner;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -21,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.swing.*;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -49,19 +45,10 @@ public class OfferController {
         for (int i = currentYear; i >= 1930; i--) {
             years.add(i);
         }
-        model.addAttribute("brands", brandRepository.findAll());
-        model.addAttribute("engines", Engine.values());
-        model.addAttribute("transmissions", Transmission.values());
-        model.addAttribute("colors", Color.values());
-        model.addAttribute("years", years);
-        model.addAttribute("allExtras", Extra.values());
-        model.addAttribute("regions", Region.values());
-        model.addAttribute("doors", DoorCount.values());
-        model.addAttribute("euroStandards", EuroStandard.values());
-        model.addAttribute("colors", Color.values());
-
+        populateDropdowns(model);
 
         return "offer-add";
+
 
     }
 
@@ -90,8 +77,6 @@ public class OfferController {
             model.addAttribute("searchOfferDto", new SearchOfferDto());
         }
 
-
-
         populateDropdowns(model);
 
         model.addAttribute("offers", offerService.searchOffers(searchOfferDto));
@@ -113,7 +98,7 @@ public class OfferController {
         model.addAttribute("transmissions", Transmission.values());
         model.addAttribute("colors", Color.values());
         model.addAttribute("doors", DoorCount.values());
-        model.addAttribute("eurostandard", EuroStandard.values());
+        model.addAttribute("euroStandard", EuroStandard.values());
         model.addAttribute("regions", Region.values());
         model.addAttribute("sort", Sort.values());
         model.addAttribute("allExtras", Extra.values());
@@ -135,12 +120,13 @@ redirectAttributes.addFlashAttribute("searchOfferDto", searchOfferDto);
 
         model.addAttribute("offers", offerService.searchOffers(searchOfferDto));
         model.addAttribute("offer.id", offerDisplayDto.getId());
+        model.addAttribute("searchOfferDto", searchOfferDto);
 
         return "offers-all";
     }
 
     @GetMapping("/offers/details/{id}")
-    public String showOfferDetails (@PathVariable("id") UUID id, Model model) {
+    public String showOfferDetails (@PathVariable UUID id, Model model) {
 
         OfferDisplayDto offerDto = offerService.getOfferById(id);
         model.addAttribute("offer", offerDto);
@@ -148,44 +134,52 @@ redirectAttributes.addFlashAttribute("searchOfferDto", searchOfferDto);
 
     }
 
+    @GetMapping("/offers/delete/{id}")
+    public String getDeleteOffer(@PathVariable UUID id, RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addFlashAttribute("securityError", "Нямате право да изтривате тази обява!");
+        return "redirect:/offers/details/" + id;
+    }
+
     @PostMapping("/offers/delete/{id}")
-    public String deleteOffer(@PathVariable("id") UUID id,
-                              @AuthenticationPrincipal UserDetails userDetails) {
+    public String deleteOffer(@PathVariable UUID id,
+                              @AuthenticationPrincipal UserDetails userDetails,  RedirectAttributes redirectAttributes) {
+ try {
+    offerService.deleteOffer(id, userDetails.getUsername());
 
-        offerService.deleteOffer(id, userDetails.getUsername());
-
-     return "redirect:/offers";
+    return "redirect:/offers";
+} catch (RuntimeException e) {
+     redirectAttributes.addFlashAttribute("securityError", e.getMessage());
+     return "redirect:/offers/details/" + id;
+ }
     }
 
     @GetMapping("/offers/edit/{id}")
-    public String editOffer(@PathVariable("id") UUID id, Model model) {
+    public String editOffer(@PathVariable UUID id, Model model, Principal principal, RedirectAttributes redirectAttributes) {
+         try {
+            String loggedInUsername = principal.getName();
+            AddOfferDto offerDto = offerService.getOfferForEdit(id, loggedInUsername);
+            model.addAttribute("addOfferDto", offerDto);
+            model.addAttribute("offerId", id);
 
+            int currentYear = java.time.Year.now().getValue();
 
-        AddOfferDto offerDto = offerService.getOfferForEdit(id);
-        model.addAttribute("addOfferDto", offerDto);
-        model.addAttribute("offerId", id);
+            List<Integer> years = new ArrayList<>();
 
-        int currentYear = java.time.Year.now().getValue();
+            for (int i = currentYear; i >= 1930; i--) {
+                years.add(i);
+            }
 
-        List<Integer> years = new ArrayList<>();
+            populateDropdowns(model);
 
-        for (int i = currentYear; i >= 1930; i--) {
-            years.add(i);
-        }
-        model.addAttribute("brands", brandRepository.findAll());
-        model.addAttribute("years", years);
-        model.addAttribute("engines", Engine.values());
-        model.addAttribute("transmissions", Transmission.values());
-        model.addAttribute("colors", Color.values());
-        model.addAttribute("doors", DoorCount.values());
-        model.addAttribute("euroStandards", EuroStandard.values());
-        model.addAttribute("regions", Region.values());
-        model.addAttribute("allExtras", Extra.values());
-
-        return "offer-edit";
+            return "offer-edit";
+        } catch (RuntimeException e) {
+             redirectAttributes.addFlashAttribute("securityError", e.getMessage());
+             return "redirect:/offers/details/" + id;
+         }
     }
     @PostMapping("/offers/edit/{id}")
-    public String editOfferConfirm(@PathVariable("id") UUID id,
+    public String editOfferConfirm(@PathVariable UUID id,
                                    @Valid AddOfferDto addOfferDto,
                                    BindingResult bindingResult,
                                    @AuthenticationPrincipal UserDetails userDetails,

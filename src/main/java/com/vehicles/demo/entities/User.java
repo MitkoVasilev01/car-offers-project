@@ -3,6 +3,7 @@ package com.vehicles.demo.entities;
 
 import com.vehicles.demo.enums.UserRole;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
@@ -11,8 +12,10 @@ import java.time.LocalDateTime;
 public class User extends BaseEntity {
 
 
+   
     @Column(unique = true, nullable = false)
     private String username;
+
 
     @Column(nullable = false)
     private String password;

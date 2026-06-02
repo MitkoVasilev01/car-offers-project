@@ -1,30 +1,42 @@
 package com.vehicles.demo.services;
 
-import com.vehicles.demo.entities.Brand;
-import com.vehicles.demo.entities.Model;
-import com.vehicles.demo.enums.VehicleCategory;
+import com.vehicles.demo.entities.*;
+import com.vehicles.demo.enums.*;
 import com.vehicles.demo.repositories.BrandRepository;
 import com.vehicles.demo.repositories.ModelRepository;
+import com.vehicles.demo.repositories.OfferRepository;
+import com.vehicles.demo.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
 
     private final BrandRepository brandRepository;
     private final ModelRepository modelRepository;
+    private final OfferRepository offerRepository;
+    private final UserRepository userRepository;
 
-    protected DataInitializer(BrandRepository brandRepository, ModelRepository modelRepository) {
+    protected DataInitializer(BrandRepository brandRepository, ModelRepository modelRepository, OfferRepository offerRepository, UserRepository userRepository) {
         this.brandRepository = brandRepository;
         this.modelRepository = modelRepository;
+        this.offerRepository = offerRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
         if (brandRepository.count() == 0) {
             seedBrandsAndModels();
+        }
+        if (offerRepository.count() == 0) {
+            seedOffers();
         }
     }
 
@@ -345,26 +357,78 @@ public class DataInitializer implements CommandLineRunner {
         yaris.setBrand(toyota);
         yaris.setCategory(VehicleCategory.CAR);
 
-        toyota.setModels(List.of(auris, avensis, celica, corolla, prius, rav4,  supra, yaris));
+        toyota.setModels(List.of(auris, avensis, celica, corolla, prius, rav4, supra, yaris));
         brandRepository.save(toyota);
 
+    }
+
+    private void seedOffers() {
+        User admin = userRepository.findByUsername("admin").orElseGet(() -> {
+            User newUser = new User();
+            newUser.setUsername("admin");
+            newUser.setPassword("13579Ii...");
+            newUser.setEmail("admin@findcar.com");
+            newUser.setActive(true);
+            newUser.setCreatedOn(LocalDateTime.now());
+            return userRepository.save(newUser);
+        });
+        Model golf = modelRepository.findByName("Golf").orElse(null);
+        Model a3 = modelRepository.findByName("A3").orElse(null);
+        Model threeSeries = modelRepository.findByName("3-Series").orElse(null);
+        Model a4 = modelRepository.findByName("A4").orElse(null);
+
+        if (golf != null) {
+            saveOffer(golf, admin, new BigDecimal("15000"), "Много запазен Голф, икономичен и перфектен за градски условия.", Set.of(Extra.AIR_CONDITIONING, Extra.ALARM), "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2958%2F20984%2FYH70TMO%2F06.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2958%2F20984%2FYH70TMO%2F08.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2958%2F20984%2FYH70TMO%2F02.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2958%2F20984%2FYH70TMO%2F04.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2958%2F20984%2FYH70TMO%2Fe01.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2958%2F20984%2FYH70TMO%2Fe02.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2958%2F20984%2FYH70TMO%2Fe03.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2958%2F20984%2FYH70TMO%2Fe06.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2958%2F20984%2FYH70TMO%2Fe07.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2958%2F20984%2FYH70TMO%2Fe08.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2958%2F20984%2FYH70TMO%2Fe09.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2958%2F20984%2FYH70TMO%2Fe10.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2958%2F20984%2FYH70TMO%2Fe11.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2958%2F20984%2FYH70TMO%2Fe12.jpg&w=3840&q=75");
+        }
+        if (a3 != null) {
+            saveOffer(a3, admin, new BigDecimal("17000"), "Ауди А3 - топ състояние, спортен дух и изключителен комфорт.", Set.of(Extra.AIR_CONDITIONING, Extra.ALARM), "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F5213%2Fprojectcambridge%2FVX18KNU%2F06.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F5213%2Fprojectcambridge%2FVX18KNU%2F08.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F5213%2Fprojectcambridge%2FVX18KNU%2F02.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F5213%2Fprojectcambridge%2FVX18KNU%2F04.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F5213%2Fprojectcambridge%2FVX18KNU%2Fe01.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F5213%2Fprojectcambridge%2FVX18KNU%2Fe02.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F5213%2Fprojectcambridge%2FVX18KNU%2Fe03.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F5213%2Fprojectcambridge%2FVX18KNU%2Fe03.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F5213%2Fprojectcambridge%2FVX18KNU%2Fe06.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F5213%2Fprojectcambridge%2FVX18KNU%2Fe07.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F5213%2Fprojectcambridge%2FVX18KNU%2Fe08.jpg&w=3840&q=75");
+        }
+        if (threeSeries != null) {
+            saveOffer(threeSeries, admin, new BigDecimal("22000"), "БМВ 3 за истински фенове на марката, напълно обслужен.", Set.of(Extra.AIR_CONDITIONING, Extra.ALARM), "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2657%2Fcinch%2FYB67OJW%2F06.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2657%2Fcinch%2FYB67OJW%2F08.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2657%2Fcinch%2FYB67OJW%2F02.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2657%2Fcinch%2FYB67OJW%2F04.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2657%2Fcinch%2FYB67OJW%2Fe01.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2657%2Fcinch%2FYB67OJW%2Fe02.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2657%2Fcinch%2FYB67OJW%2Fe03.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2657%2Fcinch%2FYB67OJW%2Fe06.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2657%2Fcinch%2FYB67OJW%2Fe07.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2657%2Fcinch%2FYB67OJW%2Fe08.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2657%2Fcinch%2FYB67OJW%2Fe09.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2657%2Fcinch%2FYB67OJW%2Fe10.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2657%2Fcinch%2FYB67OJW%2Fe11.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F2657%2Fcinch%2FYB67OJW%2Fe12.jpg&w=3840&q=75");
+        }
+        if (a4 != null) {
+            saveOffer(a4, admin, new BigDecimal("21000"), "Ауди А4 семейна кола, просторна и изключително сигурна.", Set.of(Extra.AIR_CONDITIONING, Extra.ALARM), "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe01.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe03.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe05.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe07.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe09.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe10.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe11.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe12.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe14.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe15.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe16.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe17.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe18.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe19.jpg&w=3840&q=75", "https://product-detail-www-opennext.snc-prod.aws.cinch.co.uk/_next/image?url=https%3A%2F%2Feu.cdn.autosonshow.tv%2F7570%2F22083%2FDG68TUP%2Fe20.jpg&w=3840&q=75");
+        }
+    }
+
+    private void saveOffer(Model model, User seller, BigDecimal price, String desc, Set<Extra> extras, String... imageUrls) {
+        Offer offer = new Offer();
+        offer.setId(null);
+        offer.setImages(new ArrayList<>());
+        offer.setModel(model);
+        offer.setSeller(seller);
+        offer.setPrice(price);
+        offer.setDescription(desc);
+        offer.setYear(2018);
+        offer.setMileage(150000);
+        offer.setEngine(Engine.GASOLINE);
+        offer.setTransmission(Transmission.MANUAL);
+        offer.setRegion(Region.SOFIA);
+        offer.setColor(Color.BLACK);
+        offer.setDoorCount(DoorCount.FOUR_FIVE);
+        offer.setEuroStandard(EuroStandard.EURO5);
+        offer.setCubes(1900);
+        offer.setHorsePower(150);
+        offer.setPhoneNumber("0888123456");
+        offer.setCreatedOn(LocalDateTime.now());
+        offer.setExtras(extras);
 
 
+        offer = offerRepository.save(offer);
 
+        List<OfferImage> offerImages = new ArrayList<>();
+        boolean isFirstImage = true;
+        for (String url : imageUrls) {
+            OfferImage image = new OfferImage();
+            image.setUrl(url);
+            image.setMainImage(isFirstImage);
+            image.setOffer(offer);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            offerImages.add(image);
+            isFirstImage = false;
+        }
+        offer.setImages(offerImages);
+        offerRepository.save(offer);
     }
 }
+

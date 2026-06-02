@@ -16,7 +16,6 @@ public abstract class BaseEntity {
     private UUID id;
 
     public BaseEntity() {
-
     }
 
     public UUID getId() {

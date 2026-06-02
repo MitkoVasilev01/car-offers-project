@@ -31,8 +31,8 @@ public class OfferDisplayDto {
     private EuroStandard euroStandard;
     private DoorCount doorCount;
     private Region region;
-    private String horsePower;
-    private String cubes;
+    private Integer horsePower;
+    private Integer cubes;
     private LocalDateTime createdOn;
 
 
@@ -197,19 +197,19 @@ public class OfferDisplayDto {
         this.region = region;
     }
 
-    public String getHorsePower() {
+    public Integer getHorsePower() {
         return horsePower;
     }
 
-    public void setHorsePower(String horsePower) {
+    public void setHorsePower(Integer horsePower) {
         this.horsePower = horsePower;
     }
 
-    public String getCubes() {
+    public Integer getCubes() {
         return cubes;
     }
 
-    public void setCubes(String cubes) {
+    public void setCubes(Integer cubes) {
         this.cubes = cubes;
     }
 

@@ -62,7 +62,6 @@
   </style>
 </head>
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -93,6 +92,12 @@
         </div>
 
         <div class="card-body p-4 p-md-5">
+          <!-- СЛАГАМЕ БАНЕРА ТОЧНО ТУК (вътре в картата, над формата) -->
+          <div th:if="${registrationError}" class="alert alert-danger p-3 mb-4 text-center" role="alert"
+               style="border-radius: 10px; border: 1px solid #f5c6cb; background-color: #f8d7da; color: #721c24;">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <span th:text="${registrationError}" class="fw-bold">Грешка при регистрация</span>
+          </div>
 
           <form th:action="@{/users/register}" th:object="${userRegisterDto}" method="post">
 

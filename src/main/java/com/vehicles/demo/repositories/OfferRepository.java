@@ -27,8 +27,8 @@ public interface OfferRepository extends JpaRepository<Offer, UUID> {
             "AND (:region IS NULL OR o.region = :region) " +
             "AND (:doorCount IS NULL OR o.doorCount = :doorCount) " +
             "AND (:mileage IS NULL OR o.mileage <= :mileage) " +
-            "AND (:minCubes IS NULL OR o.cubes >= :minCubes) " +
-            "AND (:maxCubes IS NULL OR o.cubes <= :maxCubes) " +
+            "AND (:minCubes IS NULL OR o.cubes <= :minCubes) " +
+            "AND (:maxCubes IS NULL OR o.cubes >= :maxCubes) " +
             "AND (:minHorsePower IS NULL OR o.horsePower >= :minHorsePower) " +
             "AND (:maxHorsePower IS NULL OR o.horsePower <= :maxHorsePower) " +
             "AND (:euroStandard IS NULL OR o.euroStandard = :euroStandard)")

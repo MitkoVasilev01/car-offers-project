@@ -22,6 +22,14 @@ public class UserService {
     }
 
     public void registerUser (UserRegisterDto userRegisterDto) {
+
+        if (userRepository.existsByEmail(userRegisterDto.getEmail())) {
+            throw new RuntimeException("Имейлът вече е зает!");
+        }
+        if (userRepository.existsByUsername(userRegisterDto.getUsername())) {
+            throw new RuntimeException("Потребителското име вече е заето!");
+        }
+
         User user = modelMapper.map(userRegisterDto, User.class);
         user.setPassword(passwordEncoder.encode(userRegisterDto.getPassword()));
         userRepository.save(user);

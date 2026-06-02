@@ -17,7 +17,6 @@ public class Brand extends BaseEntity {
     private List<Model> models = new ArrayList<>();
 
     public Brand() {
-
     }
 
     public String getName() {

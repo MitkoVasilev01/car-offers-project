@@ -100,6 +100,16 @@
             padding: 80px 0;
             margin-top: 80px;
         }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
     </style>
 </head>
 
@@ -178,7 +188,7 @@
 
                 <div class="col-md-2">
                     <label class="form-label text-muted small fw-bold">МАКС. ЦЕНА</label>
-                    <input type="number" name="maxPrice" class="form-control form-control-lg bg-light border-0" placeholder="€">
+                    <input type="number" name="maxPrice" min="0" class="form-control form-control-lg bg-light border-0" placeholder="€">
                 </div>
 
                 <div class="col-md-3">
