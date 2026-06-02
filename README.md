@@ -39,7 +39,7 @@ mvn spring-boot:run
 Open your browser and navigate to: http://localhost:8080
 
 Demo Credentials for Testing
-On the first run, the database is automatically seeded with demo data (brands, models, and 4 high-resolution car offers). You can use the following default administrator credentials to test all features (creating, editing, and deleting offers):
+On the first run, the database is automatically seeded with demo data (brands, models, and 4 high-resolution car offers). You can use the following default administrator credentials to test all features (editing, and deleting offers):
 
     Username: admin
     Password: 13579Ii...
