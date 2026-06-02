@@ -19,15 +19,29 @@ A full-stack web application for buying and selling cars, built with **Java Spri
 ##  How to Run Locally 
 1. Clone the repository:
    ```bash 
-   git clone https://github.com/MitkoVasilev01?tab=repositories
-   
-2. Open src/main/resources/application.properties and configure your MySQL credentials:
-spring.datasource.url=jdbc:mysql://localhost:3306/your_db_name
-spring.datasource.username=root
-spring.datasource.password=your_password
+   git clone https://github.com/MitkoVasilev01/car-offers-project.git
 
-3. Run the application via your IDE or terminal:
+
+2. Create the Database:
+Open your MySQL terminal or MySQL Workbench and execute the following query to create an empty schema:
+  CREATE DATABASE car_market_db;
+
+3. Configure Database Credentials:
+Open src/main/resources/application.properties and update the database connection details with your local MySQL credentials:
+spring.datasource.url=jdbc:mysql://localhost:3306/car_market_db
+spring.datasource.username=your_mysql_username
+spring.datasource.password=your_mysql_password
+
+4. You can run the application directly from your IDE (IntelliJ IDEA) by executing the main method in ChooseYourVehicleApplication.java, or via terminal:
 mvn spring-boot:run
+
+5. Access the Web Interface:
+Open your browser and navigate to: http://localhost:8080
+
+Demo Credentials for Testing
+On the first run, the database is automatically seeded with demo data (brands, models, and 4 high-resolution car offers). You can use the following default administrator credentials to test all features (creating, editing, and deleting offers):
+Username: admin
+Password: 13579Ii...
 
 Screenshots:
 
