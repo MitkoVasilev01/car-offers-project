@@ -8,6 +8,7 @@ import com.vehicles.demo.entities.Offer;
 import com.vehicles.demo.entities.OfferImage;
 import com.vehicles.demo.entities.User;
 import com.vehicles.demo.enums.Extra;
+import com.vehicles.demo.enums.UserRole;
 import com.vehicles.demo.repositories.ModelRepository;
 import com.vehicles.demo.repositories.OfferRepository;
 import com.vehicles.demo.repositories.UserRepository;
@@ -213,7 +214,13 @@ public class OfferService {
         Offer offer = offerRepository.findById(offerId)
                 .orElseThrow(() -> new RuntimeException("Обявата не е намерена!"));
 
-        if (!offer.getSeller().getUsername().equals(username)) {
+        User loggedInUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Потребителят не е намерен!"));
+
+        boolean isOwner = offer.getSeller().getUsername().equals(username);
+        boolean isAdmin = loggedInUser.getRole() == UserRole.ADMIN;
+
+        if (!isOwner && !isAdmin) {
             throw new RuntimeException("Нямате право да изтриете тази обява!");
         }
         offerRepository.delete(offer);
@@ -235,7 +242,13 @@ public class OfferService {
         Offer offer = offerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Обявата не е намерена"));
 
-        if (!offer.getSeller().getUsername().equals(userDetails.getUsername())) {
+        User loggedInUser = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("Потребителят не е намерен!"));
+
+        boolean isOwner = offer.getSeller().getUsername().equals(userDetails.getUsername());
+        boolean isAdmin = loggedInUser.getRole() == UserRole.ADMIN;
+
+        if (!isOwner && !isAdmin) {
             throw new RuntimeException("Нямате право да редактирате тази обява!");
         }
         UUID originalId = offer.getId();

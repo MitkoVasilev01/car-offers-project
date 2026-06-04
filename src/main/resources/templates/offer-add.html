@@ -72,7 +72,7 @@
                                         <label class="form-label">Евростандарт</label>
                                         <select th:field="*{euroStandard}" class="form-select" required>
                                             <option value=""></option>
-                                            <option th:each="e : ${euroStandards}" th:value="${e}" th:text="${e}"></option>
+                                            <option th:each="e : ${euroStandard}" th:value="${e}" th:text="${e}"></option>
                                         </select>
                                     </div>
                                     <div class="col-md-3 mb-3">
@@ -102,6 +102,7 @@
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Цена (Евро)</label>
                                 <input type="text" th:field="*{price}" class="form-control">
+                                <div class="text-danger" th:errors="*{price}">Error</div>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Година</label>
@@ -112,10 +113,12 @@
                                             th:text="${year}">
                                     </option>
                                 </select>
+                                <div class="text-danger" th:errors="*{year}">Error</div>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label class="form-label">Пробег (км)</label>
                                 <input type="text" th:field="*{mileage}" class="form-control">
+                                <div class="text-danger" th:errors="*{mileage}">Error</div>
                             </div>
                         </div>
 

@@ -15,25 +15,25 @@ import java.util.UUID;
 
 public class AddOfferDto {
 
-    @NotBlank
     @Size(min = 10, message = "Описанието трябва да съдържа поне 10 символа!")
     private String description;
 
-    @NotNull
+    @NotNull(message = "Полето е задължително!")
     @Positive
     private BigDecimal price;
 
-    @NotNull
+    @NotNull(message = "Полето е задължително!")
     @Min(1930)
     private Integer year;
 
-    @NotNull
+    @NotNull(message = "Полето е задължително!")
     @Positive
     private Integer mileage;
 
     @Enumerated(EnumType.STRING)
     private Engine engine;
 
+    @NotNull(message = "Полето е задължително!")
     @Enumerated(EnumType.STRING)
     private Transmission transmission;
 
@@ -52,7 +52,7 @@ public class AddOfferDto {
     private EuroStandard euroStandard;
 
     private Color color;
-
+    
     private String phoneNumber;
 
     private Integer horsePower;

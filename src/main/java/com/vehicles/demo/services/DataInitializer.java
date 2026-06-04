@@ -7,6 +7,7 @@ import com.vehicles.demo.repositories.ModelRepository;
 import com.vehicles.demo.repositories.OfferRepository;
 import com.vehicles.demo.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -22,12 +23,14 @@ public class DataInitializer implements CommandLineRunner {
     private final ModelRepository modelRepository;
     private final OfferRepository offerRepository;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    protected DataInitializer(BrandRepository brandRepository, ModelRepository modelRepository, OfferRepository offerRepository, UserRepository userRepository) {
+    protected DataInitializer(BrandRepository brandRepository, ModelRepository modelRepository, OfferRepository offerRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.brandRepository = brandRepository;
         this.modelRepository = modelRepository;
         this.offerRepository = offerRepository;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -366,10 +369,11 @@ public class DataInitializer implements CommandLineRunner {
         User admin = userRepository.findByUsername("admin").orElseGet(() -> {
             User newUser = new User();
             newUser.setUsername("admin");
-            newUser.setPassword("13579Ii...");
+            newUser.setPassword(passwordEncoder.encode("13579Ii..."));
             newUser.setEmail("admin@findcar.com");
             newUser.setActive(true);
             newUser.setCreatedOn(LocalDateTime.now());
+            newUser.setRole(UserRole.ADMIN);
             return userRepository.save(newUser);
         });
         Model golf = modelRepository.findByName("Golf").orElse(null);
