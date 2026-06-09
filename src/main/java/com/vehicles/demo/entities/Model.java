@@ -17,7 +17,7 @@ public class Model extends BaseEntity {
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
-    @Column(name = "year")
+    @Column(name = "manufacture_year")
     private Integer year;
 
     public Model () {
